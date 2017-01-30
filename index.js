@@ -35,6 +35,9 @@ const ReactNativeGtm = {
      */
     push : function(json) {
         return RCTGtm.push(json);
+    },
+    getClientId: function() {
+        return RCTGtm.getClientId();
     }
 
 }
