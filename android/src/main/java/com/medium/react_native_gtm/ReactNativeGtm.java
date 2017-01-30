@@ -12,6 +12,7 @@ import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.tagmanager.ContainerHolder;
 import com.google.android.gms.tagmanager.TagManager;
+import com.google.android.gms.analytics.GoogleAnalytics;
 
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +70,19 @@ public class ReactNativeGtm extends ReactContextBaseJavaModule{
             promise.resolve("success");
         }else{
             promise.reject("GTM-push():", new Throwable("The container has not be opened."));
+        }
+    }
+
+    @ReactMethod
+    public void getClientId(final Promise promise) {
+        if (mContainerHolder != null && mContainerHolder.getContainer() != null) {
+            String clientId = GoogleAnalytics
+                    .getInstance(getReactApplicationContext())
+                .newTracker(mContainerHolder.getContainer().getString("UniversalAnalytics"))
+                .get("&cid");
+            promise.resolve(clientId);
+        } else {
+            promise.reject("GTM-getClientId():", new Throwable("Failed to obtain client ID."));
         }
     }
 
