@@ -57,8 +57,7 @@ RCT_EXPORT_METHOD(push:(NSDictionary *)data
 RCT_EXPORT_METHOD(getClientId:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-    NSString *trakingID = [mTAGContainer stringForKey:@"UniversalAnalytics"];
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trakingID];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:[mTAGContainer containerId]];
     NSString *gaClientId = [tracker get:kGAIClientId];
     if (gaClientId != nil) {
         resolve(gaClientId);
