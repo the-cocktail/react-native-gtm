@@ -3,6 +3,7 @@
 #import "TAGContainer.h"
 #import "TagContainerOpener.h"
 #import "TAGDataLayer.h"
+#import "GAI.h"
 
 @interface react_native_gtm ()<TAGContainerOpenerNotifier>
 @end
@@ -49,6 +50,19 @@ RCT_EXPORT_METHOD(push:(NSDictionary *)data
         [mTagManager.dataLayer push:data];
     } else {
         reject(@"GTM-push():", nil, RCTErrorWithMessage(@"The container has not be opened."));
+    }
+}
+
+RCT_EXPORT_METHOD(getClientId:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+    NSString *trakingID = [mTAGContainer stringForKey:@"UniversalAnalytics"];
+    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:trakingID];
+    NSString *gaClientId = [tracker get:kGAIClientId];
+    if (gaClientId != nil) {
+        resolve(gaClientId);
+    } else {
+        reject(@"GTM-ClientId():", nil, RCTErrorWithMessage(@"Failed to obtain client ID."));
     }
 }
 
