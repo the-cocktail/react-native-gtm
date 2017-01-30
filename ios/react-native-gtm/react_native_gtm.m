@@ -4,6 +4,7 @@
 #import "TagContainerOpener.h"
 #import "TAGDataLayer.h"
 #import "GAI.h"
+#import "GAIFields.h"
 
 @interface react_native_gtm ()<TAGContainerOpenerNotifier>
 @end
